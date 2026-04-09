@@ -92,7 +92,8 @@ const LANG = {
     'detail.patterns': 'Padroes & Arquitetura',
     'detail.tests': 'Testes',
     'detail.tests.label': 'testes automatizados',
-    'detail.github': 'Ver no GitHub'
+    'detail.github': 'Ver no GitHub',
+    'detail.demo': 'Live Demo'
   },
 
   en: {
@@ -187,7 +188,8 @@ const LANG = {
     'detail.patterns': 'Patterns & Architecture',
     'detail.tests': 'Tests',
     'detail.tests.label': 'automated tests',
-    'detail.github': 'View on GitHub'
+    'detail.github': 'View on GitHub',
+    'detail.demo': 'Live Demo'
   }
 };
 
