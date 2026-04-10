@@ -70,8 +70,8 @@ const LANG = {
 
     // Projects
     'projects.title': 'Projetos do Portfolio',
-    'projects.subtitle': '9 projetos .NET 10 demonstrando diferentes tecnologias',
-    'projects.tests.total': '296 testes no total',
+    'projects.subtitle': '10 projetos .NET 10 demonstrando diferentes tecnologias',
+    'projects.tests.total': '302 testes no total',
     'projects.tests': 'testes',
 
     // Contact
@@ -166,8 +166,8 @@ const LANG = {
 
     // Projects
     'projects.title': 'Portfolio Projects',
-    'projects.subtitle': '9 .NET 10 projects showcasing different technologies',
-    'projects.tests.total': '296 tests in total',
+    'projects.subtitle': '10 .NET 10 projects showcasing different technologies',
+    'projects.tests.total': '302 tests in total',
     'projects.tests': 'tests',
 
     // Contact

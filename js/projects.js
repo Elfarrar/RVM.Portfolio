@@ -409,5 +409,53 @@ const PROJECTS = {
       { method: "POST", path: "/api/posts/{id}/comments", desc: "Comentar post", desc_en: "Comment on post" },
       { method: "GET", path: "/api/places/nearby", desc: "Places proximos", desc_en: "Nearby places" }
     ]
+  },
+  mcpforge: {
+    name: "RVM.McpForge",
+    number: "#10",
+    tagline: "Plataforma de analise de codigo e geracao automatica de servidores MCP para integracao com assistentes de IA.",
+    tagline_en: "Code analysis platform and automatic MCP server generation for AI assistant integration.",
+    icon: "\u2699\ufe0f",
+    color: "#56d364",
+    tests: 6,
+    repo: "https://github.com/Elfarrar/RVM.McpForge",
+    demo: "https://mcpforge.rvmtech.com.br",
+    tags: ["MCP Protocol", "Roslyn", "Code Generation", "Scriban", "Database Introspection"],
+    description: `RVM.McpForge e uma plataforma inteligente de analise de codigo e geracao de servidores MCP (Model Context Protocol) para projetos .NET. Analisa repositorios C# via Roslyn ou bancos PostgreSQL por introspecao, extrai endpoints, entidades, servicos e tabelas, e gera automaticamente servidores MCP com tools e resources para integracao com assistentes de IA. Suporta dois tipos de fonte (Git e Database), rastreia status do projeto e persiste snapshots de analise em PostgreSQL.`,
+    description_en: `RVM.McpForge is an intelligent code analysis and MCP (Model Context Protocol) server generation platform for .NET projects. It analyzes C# repositories via Roslyn or PostgreSQL databases via introspection, extracts endpoints, entities, services and tables, then automatically generates MCP servers with tools and resources for AI assistant integration. Supports two source types (Git and Database), tracks project status and persists analysis snapshots in PostgreSQL.`,
+    features: [
+      "Analise dual: repositorios Git (C#) e bancos PostgreSQL",
+      "Analise estatica com Roslyn: extrai controllers, endpoints, entidades e servicos",
+      "Introspecao de banco: descobre tabelas, colunas, constraints e relacionamentos",
+      "Geracao automatica de MCP tools a partir de endpoints e tabelas descobertos",
+      "Clonagem automatica de repositorios Git publicos via LibGit2Sharp",
+      "Ciclo de vida do projeto: Pending -> Analyzing -> Analyzed -> Generating -> Ready",
+      "Snapshots de analise com historico persistido",
+      "Categorizacao de tools: Query, Command, Schema",
+      "Dashboard Blazor Server com gerenciamento de projetos e servidores gerados",
+      "Geracao de codigo com templates Scriban"
+    ],
+    features_en: [
+      "Dual analysis: Git repositories (C#) and PostgreSQL databases",
+      "Static analysis with Roslyn: extracts controllers, endpoints, entities and services",
+      "Database introspection: discovers tables, columns, constraints and relationships",
+      "Automatic MCP tool generation from discovered endpoints and tables",
+      "Automatic Git repository cloning via LibGit2Sharp",
+      "Project lifecycle: Pending -> Analyzing -> Analyzed -> Generating -> Ready",
+      "Analysis snapshots with persisted history",
+      "Tool categorization: Query, Command, Schema",
+      "Blazor Server dashboard with project and generated server management",
+      "Code generation with Scriban templates"
+    ],
+    technologies: [".NET 10", "ASP.NET Core 10", "Roslyn (Microsoft.CodeAnalysis) 4.13", "Scriban 5.12", "LibGit2Sharp 0.30", "EF Core 10", "PostgreSQL", "Npgsql", "Blazor Server", "Serilog", "xUnit"],
+    patterns: ["Layered Architecture (4 camadas)", "Orchestrator Pattern (ForgeOrchestrator)", "Strategy Pattern (ISourceAnalyzer)", "Visitor Pattern (SyntaxWalkers)", "Repository Pattern", "Custom Auth Handler (API Key)"],
+    endpoints: [
+      { method: "GET", path: "/api/forge/projects", desc: "Listar projetos", desc_en: "List projects" },
+      { method: "POST", path: "/api/forge/projects", desc: "Criar projeto", desc_en: "Create project" },
+      { method: "POST", path: "/api/forge/projects/{id}/analyze", desc: "Analisar projeto", desc_en: "Analyze project" },
+      { method: "POST", path: "/api/forge/projects/{id}/generate", desc: "Gerar servidor MCP", desc_en: "Generate MCP server" },
+      { method: "GET", path: "/api/forge/generated/{projectId}", desc: "Servidores gerados", desc_en: "Generated servers" },
+      { method: "DELETE", path: "/api/forge/projects/{id}", desc: "Remover projeto", desc_en: "Delete project" }
+    ]
   }
 };
