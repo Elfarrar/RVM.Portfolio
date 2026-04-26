@@ -457,5 +457,53 @@ const PROJECTS = {
       { method: "GET", path: "/api/forge/generated/{projectId}", desc: "Servidores gerados", desc_en: "Generated servers" },
       { method: "DELETE", path: "/api/forge/projects/{id}", desc: "Remover projeto", desc_en: "Delete project" }
     ]
+  },
+  cinetrack: {
+    name: "RVM.CineTrack",
+    number: "#11",
+    tagline: "Plataforma de tracking de filmes e series com avaliacoes por Oscar, alertas de lancamento, ranking social e integracao TMDB.",
+    tagline_en: "Movie and TV series tracking platform with Oscar-based ratings, release alerts, social ranking and TMDB integration.",
+    icon: "\ud83c\udfac",
+    color: "#e73c7e",
+    tests: 0,
+    repo: "https://github.com/Elfarrar/RVM.CineTrack",
+    demo: "https://cinetrack.lab.rvmtech.com.br",
+    tags: ["TMDB API", "Tracking", "Reviews", "Alerts", "Social Ranking"],
+    description: `RVM.CineTrack e uma plataforma de tracking de filmes e series integrada com a API do TMDB (The Movie Database). Permite buscar e sincronizar midias, gerenciar watchlists com estados (Quero Assistir, Assistindo, Assistido, Abandonado), avaliar com sistema de 1-5 Oscars (nao estrelas), acompanhar episodios individualmente, receber alertas de lancamento e visualizar rankings sociais. O dashboard apresenta estatisticas detalhadas: total assistido, horas gastas, generos preferidos e artistas mais assistidos.`,
+    description_en: `RVM.CineTrack is a movie and TV series tracking platform integrated with the TMDB (The Movie Database) API. It allows searching and syncing media, managing watchlists with states (Want to Watch, Watching, Watched, Dropped), rating with a 1-5 Oscars system (not stars), tracking individual episodes, receiving release alerts and viewing social rankings. The dashboard presents detailed statistics: total watched, hours spent, preferred genres and most-watched artists.`,
+    features: [
+      "Busca e sincronizacao de filmes e series via TMDB API v3",
+      "Watchlist com 4 estados: Quero Assistir, Assistindo, Assistido, Abandonado",
+      "Sistema de avaliacoes com 1-5 Oscars (filmes, series, temporadas e episodios)",
+      "Tracking granular de episodios: checklist individual por episodio",
+      "Marcacao de temporada completa em batch",
+      "Alertas de lancamento no dashboard (7 dias antes da estreia)",
+      "Reviews publicas com texto livre por midia, temporada ou episodio",
+      "Provedores de streaming Brasil (Netflix, Prime, Disney+) via TMDB",
+      "Rankings sociais: mais/menos bem avaliados, recomendacoes por genero",
+      "Dashboard com estatisticas: horas assistidas, generos favoritos, streak"
+    ],
+    features_en: [
+      "Movie and TV series search and sync via TMDB API v3",
+      "Watchlist with 4 states: Want to Watch, Watching, Watched, Dropped",
+      "Rating system with 1-5 Oscars (movies, series, seasons and episodes)",
+      "Granular episode tracking: individual checklist per episode",
+      "Batch full-season marking",
+      "Release alerts on dashboard (7 days before premiere)",
+      "Public reviews with free text per media, season or episode",
+      "Brazil streaming providers (Netflix, Prime, Disney+) via TMDB",
+      "Social rankings: highest/lowest rated, genre-based recommendations",
+      "Dashboard with statistics: hours watched, favorite genres, streak"
+    ],
+    technologies: [".NET 10", "ASP.NET Core 10", "EF Core 10", "PostgreSQL", "Npgsql", "TMDB API v3", "Blazor Server", "Serilog", "Seq", "xUnit"],
+    patterns: ["Clean Architecture (3 camadas)", "Repository Pattern", "Service Layer (MediaSyncService, WatchListService)", "Background Service (ReleaseAlertWorker)", "HTTP Client Pattern (TMDB)", "Domain Entity with State Machine (WatchList)"],
+    endpoints: [
+      { method: "GET", path: "/api/search?query=", desc: "Buscar filmes e series no TMDB", desc_en: "Search movies and TV shows on TMDB" },
+      { method: "POST", path: "/api/media/sync/movie/{tmdbId}", desc: "Sincronizar filme do TMDB", desc_en: "Sync movie from TMDB" },
+      { method: "POST", path: "/api/media/sync/tv/{tmdbId}", desc: "Sincronizar serie do TMDB", desc_en: "Sync TV show from TMDB" },
+      { method: "POST", path: "/api/watchlist", desc: "Adicionar a watchlist", desc_en: "Add to watchlist" },
+      { method: "POST", path: "/api/reviews", desc: "Criar review", desc_en: "Create review" },
+      { method: "GET", path: "/api/stats/{userId}", desc: "Estatisticas do usuario", desc_en: "User statistics" }
+    ]
   }
 };
