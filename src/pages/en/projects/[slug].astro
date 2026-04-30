@@ -1,0 +1,167 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Contact from "../../../components/Contact.astro";
+import { listProjects, getProject } from "../../../data/projects";
+
+export function getStaticPaths() {
+  return listProjects().map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const project = getProject(slug!);
+if (!project) throw new Error(`Project not found: ${slug}`);
+
+const lang = "en";
+---
+
+<Layout
+  lang={lang}
+  title={`${project.name} — Rafael Veneroso Morici`}
+  description={project.tagline_en}
+>
+  <article class="prj">
+    <header class="prj-header reveal">
+      <a href="/en/#projects" class="prj-back mono">&larr; back</a>
+      <span class="tag mono">{project.number}</span>
+      <h1 class="prj-title display">{project.name}</h1>
+      <p class="prj-tagline">{project.tagline_en}</p>
+
+      <div class="prj-cta">
+        {project.repo && (
+          <a href={project.repo} target="_blank" rel="noopener" class="btn btn-primary" data-magnetic>
+            <span>GitHub</span>
+            <span aria-hidden="true">&nearr;</span>
+          </a>
+        )}
+        {project.demo && (
+          <a href={project.demo} target="_blank" rel="noopener" class="btn btn-ghost" data-magnetic data-magnetic-strength="0.2">
+            <span>Live demo</span>
+            <span aria-hidden="true">&nearr;</span>
+          </a>
+        )}
+      </div>
+    </header>
+
+    <section class="prj-section reveal">
+      <h2 class="prj-h2 display">Overview</h2>
+      <p class="prj-body">{project.description_en}</p>
+    </section>
+
+    {project.features_en?.length > 0 && (
+      <section class="prj-section reveal">
+        <h2 class="prj-h2 display">Features</h2>
+        <ul class="prj-list">
+          {project.features_en.map((f) => (
+            <li>
+              <span class="prj-bullet" aria-hidden="true"></span>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {project.technologies?.length > 0 && (
+      <section class="prj-section reveal">
+        <h2 class="prj-h2 display">Technologies</h2>
+        <ul class="prj-tags">
+          {project.technologies.map((t) => <li class="mono">{t}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {project.patterns?.length > 0 && (
+      <section class="prj-section reveal">
+        <h2 class="prj-h2 display">Patterns & architecture</h2>
+        <ul class="prj-tags">
+          {project.patterns.map((p) => <li class="mono">{p}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {project.endpoints?.length > 0 && (
+      <section class="prj-section reveal">
+        <h2 class="prj-h2 display">REST endpoints</h2>
+        <table class="prj-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {project.endpoints.map((e) => (
+              <tr>
+                <td><span class={`method method-${e.method.toLowerCase()}`}>{e.method}</span></td>
+                <td><code class="mono">{e.path}</code></td>
+                <td>{e.desc_en}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    )}
+  </article>
+
+  <Contact lang={lang} />
+</Layout>
+
+<style>
+  .prj { max-width: 880px; margin: 0 auto; padding: 9rem 1.5rem 4rem; }
+  .prj-header { margin-bottom: 4rem; }
+  .prj-back {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    margin-bottom: 1.5rem;
+  }
+  .prj-back:hover { color: var(--color-accent); }
+  .prj-title { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.0; margin: 1rem 0; }
+  .prj-tagline { color: var(--color-text-muted); font-size: 1.125rem; line-height: 1.55; margin-bottom: 2rem; max-width: 720px; }
+  .prj-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .prj-section { margin-bottom: 3.5rem; }
+  .prj-h2 {
+    font-size: 1.5rem;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .prj-body { color: var(--color-text-muted); font-size: 1rem; line-height: 1.7; }
+  .prj-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.625rem; }
+  .prj-list li { display: flex; gap: 0.75rem; color: var(--color-text); font-size: 0.9375rem; line-height: 1.55; }
+  .prj-bullet { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--color-accent); margin-top: 0.625rem; }
+  .prj-tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .prj-tags li {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: oklch(13% 0.005 270 / 0.6);
+    color: var(--color-text-muted);
+  }
+  .prj-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .prj-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .prj-table td {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+  .prj-table code { color: var(--color-text); font-size: 0.8125rem; }
+  .method { font-family: var(--font-mono); font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 4px; letter-spacing: 0.06em; }
+  .method-get { background: oklch(72% 0.22 250 / 0.15); color: oklch(72% 0.22 250); }
+  .method-post { background: oklch(75% 0.18 145 / 0.15); color: oklch(75% 0.18 145); }
+  .method-put { background: oklch(80% 0.17 60 / 0.15); color: oklch(80% 0.17 60); }
+  .method-delete { background: oklch(70% 0.21 25 / 0.15); color: oklch(70% 0.21 25); }
+</style>

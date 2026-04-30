@@ -1,4 +1,4 @@
-const PROJECTS = {
+export const PROJECTS = {
   codelens: {
     name: "RVM.CodeLens",
     number: "#01",
