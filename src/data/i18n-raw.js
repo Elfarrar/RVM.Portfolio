@@ -1,5 +1,5 @@
 // ===== Internationalization (PT-BR / EN) =====
-const LANG = {
+export const LANG = {
   pt: {
     // Navbar
     'nav.about': 'Sobre',
@@ -193,41 +193,3 @@ const LANG = {
   }
 };
 
-// ===== Engine =====
-let currentLang = localStorage.getItem('lang') || 'pt';
-
-function t(key) {
-  return LANG[currentLang]?.[key] || LANG.pt[key] || key;
-}
-
-function projectField(project, field) {
-  const enKey = field + '_en';
-  return (currentLang === 'en' && project[enKey] !== undefined) ? project[enKey] : project[field];
-}
-
-function applyTranslations() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.dataset.i18n);
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    el.innerHTML = t(el.dataset.i18nHtml);
-  });
-}
-
-function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('lang', lang);
-  document.querySelectorAll('.lang-btn').forEach(btn =>
-    btn.classList.toggle('active', btn.dataset.lang === lang)
-  );
-  applyTranslations();
-  document.dispatchEvent(new CustomEvent('langchange'));
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang));
-    btn.classList.toggle('active', btn.dataset.lang === currentLang);
-  });
-  applyTranslations();
-});

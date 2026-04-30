@@ -1,0 +1,199 @@
+---
+import { listProjects } from "../data/projects";
+import { tr, type Locale } from "../data/i18n";
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const isPt = lang === "pt";
+const all = listProjects();
+const base = isPt ? "" : "/en";
+---
+
+<section id="projects" class="projects">
+  <header class="projects-header reveal">
+    <span class="tag mono">/ {tr(lang, "nav.projects").toLowerCase()}</span>
+    <h2 class="projects-title display">
+      {isPt ? "11 projetos." : "11 projects."}<br/>
+      <span class="mix-italic">{isPt ? "Codigo aberto. Em producao." : "Open source. In production."}</span>
+    </h2>
+    <p class="projects-sub">
+      {isPt
+        ? "Cada projeto foi desenhado para resolver um problema real e validar uma stack diferente. Todos rodando em producao no portfolio.lab.rvmtech.com.br."
+        : "Each project was designed to solve a real problem and validate a different stack. All running in production at portfolio.lab.rvmtech.com.br."}
+    </p>
+  </header>
+
+  <div class="projects-grid">
+    {all.map((p) => (
+      <a href={`${base}/projects/${p.slug}/`} class="project-card reveal" data-cursor="hover">
+        <div class="pc-head">
+          <span class="pc-num mono">{p.number}</span>
+          <span class="pc-icon" aria-hidden="true">{p.icon}</span>
+        </div>
+        <h3 class="pc-name display">{p.name}</h3>
+        <p class="pc-tag">{isPt ? p.tagline : p.tagline_en}</p>
+        <ul class="pc-tech mono">
+          {p.tags.slice(0, 4).map((t) => <li>{t}</li>)}
+        </ul>
+        <div class="pc-foot">
+          <span class="pc-tests mono">{p.tests} tests</span>
+          <span class="pc-arrow">&nearr;</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .projects {
+    max-width: 1200px;
+    margin: 8rem auto 0;
+    padding: 0 1.5rem;
+  }
+
+  .projects-header { max-width: 720px; margin-bottom: 3rem; }
+
+  .projects-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.0;
+    margin: 1.25rem 0 1rem;
+  }
+
+  .projects-sub {
+    color: var(--color-text-muted);
+    max-width: 600px;
+    font-size: 1rem;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1.5rem;
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    background: oklch(15% 0.01 270 / 0.55);
+    backdrop-filter: blur(12px);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: border-color 0.4s, background 0.4s, transform 0.5s var(--ease-out-expo);
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--mx, 50%) var(--my, 50%),
+      oklch(72% 0.22 250 / 0.08),
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .project-card:hover {
+    border-color: oklch(72% 0.22 250 / 0.4);
+    background: oklch(17% 0.015 270 / 0.7);
+  }
+  .project-card:hover::before { opacity: 1; }
+
+  .pc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pc-num {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    letter-spacing: 0.06em;
+  }
+
+  .pc-icon {
+    font-size: 1.25rem;
+    filter: grayscale(0.3);
+  }
+
+  .pc-name {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .pc-tag {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+
+  .pc-tech {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .pc-tech li {
+    font-size: 0.6875rem;
+    color: var(--color-text-subtle);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: oklch(13% 0.005 270 / 0.6);
+  }
+
+  .pc-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pc-tests {
+    font-size: 0.6875rem;
+    color: var(--color-text-subtle);
+    letter-spacing: 0.04em;
+  }
+
+  .pc-arrow {
+    color: var(--color-text-subtle);
+    transition: color 0.3s, transform 0.4s var(--ease-out-expo);
+  }
+
+  .project-card:hover .pc-arrow {
+    color: var(--color-accent);
+    transform: translate(3px, -3px);
+  }
+
+  @media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .projects-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const cards = document.querySelectorAll<HTMLElement>(".project-card");
+    cards.forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty("--mx", `${x}%`);
+        card.style.setProperty("--my", `${y}%`);
+      });
+    });
+  });
+</script>
